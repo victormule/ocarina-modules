@@ -1,0 +1,26 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Public directory
+public/
+
+# Configuration files
+webpack.config.js
+
+# Package files
+package-lock.json
+package.json
+
+# Logs
+*.log
+
+# Runtime data
+*.pid
+*.seed
+
+# dotenv environment variables file
+.env
+.env.test
