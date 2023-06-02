@@ -6,8 +6,8 @@ import song3 from "../../../public/assets/map4/DistantRoads.mp3";
 import coffreImg from "../../../public/assets/map4/coffre.gif";
 import coffreImg2 from "../../../public/assets/map4/coffreEN.gif";
 import playerCoffre from "../../../public/assets/map4/playercoffre.gif";
-import oldwoman2 from "../../../public/assets/map4/oldwoman2.gif";
-import oldwoman3 from "../../../public/assets/map4/oldwoman2.png";
+import oldwoman2 from "../../../public/assets/map4/oldwoman2.png";
+import oldwoman3 from "../../../public/assets/map4/oldwoman2.gif";
 
 export const soundEffects = {
   door1: bruitage1,

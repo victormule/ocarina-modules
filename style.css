@@ -1,0 +1,24 @@
+html{
+  width:100vw ;
+  heigh : 100vh;
+  display:flex;
+  flex-direction:column-r;
+  align-items: center;
+  justify-content:center;
+  background-image: url('public/assets/global/estampe.jpg');
+  
+}
+body{
+  width:100vw ;
+  heigh : 100vh;
+  box-sizing:border-box;
+  display:flex;
+  align-items: center;
+  justify-content:center;
+  overflow: hidden;
+ 
+  
+}
+
+
+

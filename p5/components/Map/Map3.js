@@ -16,9 +16,9 @@ export default class Map3 extends Map {
             this[key] = loadImage(this.mapImages[key]);
         });
 
-        Object.keys(this.mapMusic).forEach(key => {
-            this[key] = loadImage(this.mapMusic[key]);
-        });
+        // Object.keys(this.mapMusic).forEach(key => {
+        //     this[key] = loadImage(this.mapMusic[key]);
+        // });
     }
 
     setup() {

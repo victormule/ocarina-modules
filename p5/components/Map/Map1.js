@@ -1,9 +1,10 @@
 import Map from './Map.js';
 import { music, images } from "../../data/map1/map1Data.js";
 
+
 export default class Map1 extends Map {
-    constructor(p) {
-        super(p);
+    constructor(p5) {
+        super(p5);
         this.mapImages = images;
         this.mapMusic = music;
         this.g = -600;
@@ -12,18 +13,26 @@ export default class Map1 extends Map {
         this.o = -400;
         this.u = 0;
         this.t = 0;
+        this.affichageCommentaires = null;
+        this.pseudoInput = null;
+        Object.keys(this.mapImages).forEach(key => {
+          this[key] = null;
+        });
     }
 
     preload() {
         super.preload();
 
         Object.keys(this.mapImages).forEach(key => {
-            this[key] = p.loadImage(this.mapImages[key]);
+          const url = this.mapImages[key];
+            // Charger en tant qu'image statique dans tous les autres cas
+            this[key] = this.p5.loadImage(url);
         });
+        
 
-        Object.keys(this.mapMusic).forEach(key => {
-            this[key] = p.loadSound(this.mapMusic[key]);
-        });
+        // Object.keys(this.mapMusic).forEach(key => {
+        //     this[key] = this.p5.loadSound(this.mapMusic[key]);
+        // });
     }
 
     setup() {
@@ -33,8 +42,8 @@ export default class Map1 extends Map {
     }
 
     setupScrollbar() {
-        scrollbarImg = p.createImg('assets/scrollbar.png');
-        scrollbarImg.position(p.windowWidth/2 +244, p.windowHeight/2 +167, "absolute");
+        let scrollbarImg = this.p5.createImg('assets/scrollbar.png');
+        scrollbarImg.position(this.p5.windowWidth/2 +244, this.p5.windowHeight/2 +167, "absolute");
         scrollbarImg.style("z-index", "-100");
     }
 
@@ -42,33 +51,33 @@ export default class Map1 extends Map {
       super.draw(); 
 
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img5, this.kaio1, this.img13, this.kaio1a);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img6, this.kaio1, this.img13, this.kaio1a);
       }
 
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img7, this.kaio1, this.img13, this.kaio1a);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img8, this.kaio1, this.img13, this.kaio1a);
       }
 
-      if (keyIsDown(LEFT_ARROW)) {
-        this.updateScene(this.player.img2, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+        this.updateScene(this.img2, this.kaio1, this.img13, this.kaio1a);
         this.globalState.x -= 5;
         this.globalState.a = 2;
       }
 
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.updateScene(this.player.img3, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        this.updateScene(this.img3, this.kaio1, this.img13, this.kaio1a);
         this.globalState.x += 5;
         this.globalState.a = 3;
       }
 
-      if (keyIsDown(UP_ARROW)) {
-        this.updateScene(this.player.img4, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+        this.updateScene(this.img4, this.kaio1, this.img13, this.kaio1a);
         this.globalState.y -= 5;
         this.u = this.globalState.y -220 - (this.globalState.y*2*0.33);
         this.t = this.globalState.y-250 - (this.globalState.y*2*0.3);
@@ -76,8 +85,8 @@ export default class Map1 extends Map {
         this.globalState.N += 5;
       }
 
-      if (keyIsDown(DOWN_ARROW)) {
-        this.updateScene(this.player.img1, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.DOWN_ARROW)) {
+        this.updateScene(this.img1, this.kaio1, this.img13, this.kaio1a);
         this.globalState.y += 5;
         this.u = this.globalState.y -220 - (this.globalState.y*2*0.33);
         this.t = this.globalState.y -250 - (this.globalState.y*2*0.3);
@@ -662,57 +671,57 @@ export default class Map1 extends Map {
     ///panneau1 Affichage///
 
     if (this.globalState.y >= 782 && this.globalState.y <= 818 && this.globalState.x >= 318 && this.globalState.x <= 388) {
-      p.noTint();
-      p.image(this.images.img9, 0, this.globalState.y + 150);
-      p.fill(255, 150);
-      if (FR == 255) {
-        text("Observez, étudiez et attrapez des Pokémon", 484, this.globalState.y + 226);
-        text("sauvages durant une période révolue de ", 484, this.globalState.y + 252);
-        text("l'Histoire du Japon, afin de compléter le ", 484, this.globalState.y + 278);
-        text("tout premier Pokédex de la région.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(this.img9, 0, this.globalState.y + 150);
+      this.p5.fill(255, 150);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Observez, étudiez et attrapez des Pokémon", 484, this.globalState.y + 226);
+        this.p5.text("sauvages durant une période révolue de ", 484, this.globalState.y + 252);
+        this.p5.text("l'Histoire du Japon, afin de compléter le ", 484, this.globalState.y + 278);
+        this.p5.text("tout premier Pokédex de la région.", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("Survey, catch, and research wild Pokémon", 484, this.globalState.y + 234);
-        text("in this.globalState.a long-gone era of Japan", 484, this.globalState.y + 260);
-        text("to complete the region’s first Pokédex. ", 484, this.globalState.y + 286);
+      if (this.globalState.EN == 255) {
+        this.p5.text("Survey, catch, and research wild Pokémon", 484, this.globalState.y + 234);
+        this.p5.text("in this.globalState.a long-gone era of Japan", 484, this.globalState.y + 260);
+        this.p5.text("to complete the region’s first Pokédex. ", 484, this.globalState.y + 286);
       }
     }
 
     ///panneau2 Affichage///
 
     if (this.globalState.y >= 1460 && this.globalState.y <= 1490 && this.globalState.x >= 346 && this.globalState.x <= 425) {
-      p.noTint();
-      p.image(this.images.img9, 0, this.globalState.y + 150);
-      p.fill(255, 150);
-      if (FR == 255) {
-        text("Nous sommes en 1570. A cette époque,", 484, this.globalState.y + 226);
-        text("il n'est pas rare de se voir provoquer", 484, this.globalState.y + 252);
-        text("en duel. Vos pokemons ne vous seront", 484, this.globalState.y + 278);
-        text("d'aucun secours dans un combat au sabre.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(this.img9, 0, this.globalState.y + 150);
+      this.p5.fill(255, 150);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Nous sommes en 1570. A cette époque,", 484, this.globalState.y + 226);
+        this.p5.text("il n'est pas rare de se voir provoquer", 484, this.globalState.y + 252);
+        this.p5.text("en duel. Vos pokemons ne vous seront", 484, this.globalState.y + 278);
+        this.p5.text("d'aucun secours dans un combat au sabre.", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("In 1570, it's usual to be challenged", 484, this.globalState.y + 234);
-        text("to this.globalState.a dual. But be carefull, your pokemon", 484, this.globalState.y + 260);
-        text("will be helpless during this.globalState.a sword fight.", 484, this.globalState.y + 286);
+      if (this.globalState.EN == 255) {
+        this.p5.text("In 1570, it's usual to be challenged", 484, this.globalState.y + 234);
+        this.p5.text("to this.globalState.a dual. But be carefull, your pokemon", 484, this.globalState.y + 260);
+        this.p5.text("will be helpless during this.globalState.a sword fight.", 484, this.globalState.y + 286);
       }
     }
 
     ///panneau3 Affichage///
 
     if (this.globalState.y >= 2104 && this.globalState.y <= 2160 && this.globalState.x >= 300 && this.globalState.x <= 356) {
-      p.noTint();
-      p.image(this.images.img9, 0, this.globalState.y + 150);
-      p.fill(255, 150);
-      if (FR == 255) {
-        text("Affrontez des dresseurs redoutable dans", 484, this.globalState.y + 226);
-        text("des combats aussi difficiles qu'épiques.", 484, this.globalState.y + 252);
-        text("Menez vos Pokemon à la victoire contre de", 484, this.globalState.y + 278);
-        text("grands champions pour remporter leurs royaume.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(this.img9, 0, this.globalState.y + 150);
+      this.p5.fill(255, 150);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Affrontez des dresseurs redoutable dans", 484, this.globalState.y + 226);
+        this.p5.text("des combats aussi difficiles qu'épiques.", 484, this.globalState.y + 252);
+        this.p5.text("Menez vos Pokemon à la victoire contre de", 484, this.globalState.y + 278);
+        this.p5.text("grands champions pour remporter leurs royaume.", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("In 1570, it's usual to be challenged", 484, this.globalState.y + 234);
-        text("to this.globalState.a dual. But be carefull, your pokemon", 484, this.globalState.y + 260);
-        text("will be helpless during this.globalState.a sword fight.", 484, this.globalState.y + 286);
+      if (this.globalState.EN == 255) {
+        this.p5.text("In 1570, it's usual to be challenged", 484, this.globalState.y + 234);
+        this.p5.text("to this.globalState.a dual. But be carefull, your pokemon", 484, this.globalState.y + 260);
+        this.p5.text("will be helpless during this.globalState.a sword fight.", 484, this.globalState.y + 286);
       }
     }
 
@@ -738,36 +747,36 @@ export default class Map1 extends Map {
     ///panneau4 Affichage///
 
   if (this.globalState.y >= 2410 && this.globalState.y <= 2584 && this.globalState.x >= 724 && this.globalState.x <= 790) {
-    if (!pseudoInput) { 
-      formulation = p.createImg(this.images.formulaire);
-      formulation.position(p.windowWidth/2 -480, p.windowHeight/2 +80, "absolute");
+    if (!this.pseudoInput) { 
+      let formulation = this.p5.createImg(this.formulaire);
+      formulation.position(this.p5.windowWidth/2 -480, this.p5.windowHeight/2 +80, "absolute");
       formulation.style("z-index", "800");
-      cachemisere = createImg(this.images.cachemisere);
-      cachemisere.position(p.windowWidth/2 +230, p.windowHeight/2 +80, "absolute");
+      cachemisere = this.p5.createImg(this.cachemisere);
+      cachemisere.position(this.p5.windowWidth/2 +230, this.p5.windowHeight/2 +80, "absolute");
       cachemisere.style("z-index: 1100");
-      pseudoInput = p.createInput().size(180, 20);
-      pseudoInput.position(p.windowWidth/2 - 250, p.windowHeight/2 + 160, "absolute");
-      pseudoInput.style("font-family", this.globalVariables.font);
+      pseudoInput = this.p5.createInput().size(180, 20);
+      pseudoInput.position(this.p5.windowWidth/2 - 250, this.p5.windowHeight/2 + 160, "absolute");
+      pseudoInput.style("font-family", this.font);
       pseudoInput.style("font-size", "16px");
       pseudoInput.style('opacity', '0.6');
       pseudoInput.style("z-index", "1000");
       pseudoInput.elt.placeholder = 'Pseudo';
-      commentInput = p.createElement('textarea').size(180, 100);
-      commentInput.position(p.windowWidth/2 - 250, p.windowHeight/2 + 194, "absolute");
-      commentInput.style("font-family", this.globalVariables.font);
+      commentInput = this.p5.createElement('textarea').size(180, 100);
+      commentInput.position(this.p5.windowWidth/2 - 250, this.p5.windowHeight/2 + 194, "absolute");
+      commentInput.style("font-family", this.font);
       commentInput.style("font-size", "16px");
       commentInput.style('opacity', '0.65');
       commentInput.style("resize", "none");
       commentInput.style("z-index", "1000");
       commentInput.attribute("placeholder", "this.globalState.N'hésitez pas à laisser un commentaire ici!");
-      sendButton = p.createButton('Envoyer');
-      sendButton.position(p.windowWidth/2 - 250, p.windowHeight/2 + 310, "absolute");
-      sendButton.style("font-family", this.globalVariables.font);
+      sendButton = this.p5.createButton('Envoyer');
+      sendButton.position(this.p5.windowWidth/2 - 250, this.p5.windowHeight/2 + 310, "absolute");
+      sendButton.style("font-family", this.font);
       sendButton.style('color', '#e9dcd1');
       sendButton.style("border", "5px outset inset solid #9e7150");
       sendButton.style('background-color', '#a08066');
       sendButton.style("z-index", "1000");
-      sendButton.mousePressed(envoyerSaisies);
+      sendButton.mousePressed(this.envoyerSaisies);
       afficherCommentaires()
     
       // Dessinez la barre de défilement si elle doit être visible
@@ -778,27 +787,27 @@ export default class Map1 extends Map {
     } 
   } else {
       // Cacher ou supprimer le formulaire de commentaire
-      if (pseudoInput) {
-        affichageCommentaires = false; // mettre à jour la variable booléenne
-        pseudoInput.remove();
+      if (this.pseudoInput) {
+        this.affichageCommentaires = false; // mettre à jour la variable booléenne
+        this.pseudoInput.remove();
         commentInput.remove();
         sendButton.remove();
         formulation.remove();
         cachemisere.remove();
         scrollbarImg.style("z-index", "-100");
-        scrollbarImg.position(p.windowWidth/2 +244, p.windowHeight/2 +167, "absolute");
-        pseudoInput = null;
-        commentInput = null;
-        sendButton = null;
-        formulation = null;
-        cachemisere = null;
-        suppCommentaires();
+        scrollbarImg.position(this.p5.windowWidth/2 +244, this.p5.windowHeight/2 +167, "absolute");
+        this.pseudoInput = null;
+        this.commentInput = null;
+        this.sendButton = null;
+        this.formulation = null;
+        this.cachemisere = null;
+        this.suppCommentaires();
       }
     }
 
-    if (!pseudoInput) {
-      affichageCommentaires = false; // mettre à jour la variable booléenne
-      suppCommentaires();
+    if (!this.pseudoInput) {
+      this.affichageCommentaires = false; // mettre à jour la variable booléenne
+      this.suppCommentaires();
     }
 
     //-------panneau 5------//
@@ -1117,18 +1126,18 @@ export default class Map1 extends Map {
 
     if (this.globalState.y >= 2316 && this.globalState.y <= 2410 && this.globalState.x >= 70 && this.globalState.x <= 180) {
 
-      p.noTint();
-      p.image(this.mapImages.img20, 582, this.globalState.y + 24);
-      p.image(this.mapImages.img21, 10, this.globalState.y + 130);
+      this.p5.noTint();
+      this.p5.image(this.mapImages.img20, 582, this.globalState.y + 24);
+      this.p5.image(this.mapImages.img21, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Chrysacier c'est toi le meilleur !", 484, this.globalState.y + 248);
-        text("Attaques armure, comme lui !", 484, this.globalState.y + 284);
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Chrysacier c'est toi le meilleur !", 484, this.globalState.y + 248);
+        this.p5.text("Attaques armure, comme lui !", 484, this.globalState.y + 284);
       }
-      if (EN == 255) {
-        text("You are the stronger Metapod !", 484, this.globalState.y + 248);
-        text("Harden, like him !", 484, this.globalState.y + 284);
+      if (this.globalState.EN == 255) {
+        this.p5.text("You are the stronger Metapod !", 484, this.globalState.y + 248);
+        this.p5.text("Harden, like him !", 484, this.globalState.y + 284);
       }
     }
 
@@ -1170,17 +1179,17 @@ export default class Map1 extends Map {
 
     if (this.globalState.y >= 2316 && this.globalState.y <= 2410 && this.globalState.x >= 280 && this.globalState.x <= 394) {
 
-      p.noTint();
-      p.image(this.mapImages.img22, 534, this.globalState.y + 22);
-      p.image(this.mapImages.img23, 10, this.globalState.y + 130);
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Tiens bon Chrysacier !", 484, this.globalState.y + 248);
-        text("Armure au maximun !", 484, this.globalState.y + 284);
+      this.p5.noTint();
+      this.p5.image(this.mapImages.img22, 534, this.globalState.y + 22);
+      this.p5.image(this.mapImages.img23, 10, this.globalState.y + 130);
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Tiens bon Chrysacier !", 484, this.globalState.y + 248);
+        this.p5.text("Armure au maximun !", 484, this.globalState.y + 284);
       }
-      if (EN == 255) {
-        text("Metapod hold on !", 484, this.globalState.y + 248);
-        text("Maximum harden !", 484, this.globalState.y + 284);
+      if (this.globalState.EN == 255) {
+        this.p5.text("Metapod hold on !", 484, this.globalState.y + 248);
+        this.p5.text("Maximum harden !", 484, this.globalState.y + 284);
       }
     }
 
@@ -1205,22 +1214,22 @@ export default class Map1 extends Map {
 
     if (this.globalState.y >= 2566 && this.globalState.y <= 2650 && this.globalState.x >= 430 && this.globalState.x <= 610) {
   
-      p.noTint();
-      p.image(this.mapImages.img24, 584, this.globalState.y + 22);
-      p.image(this.mapImages.img25, 10, this.globalState.y + 130);
+      this.p5.noTint();
+      this.p5.image(this.img24, 584, this.globalState.y + 22);
+      this.p5.image(this.img25, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Dans cette aventure, il faut du temps ", 484, this.globalState.y + 226);
-        text("pour que ton pokemon this.t'obéisses.", 484, this.globalState.y + 252);
-        text("Seuls les liens d'amitier et la persévérance", 484, this.globalState.y + 278);
-        text("en feront un bon compagnon de combat. ", 484, this.globalState.y + 304);
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Dans cette aventure, il faut du temps ", 484, this.globalState.y + 226);
+        this.p5.text("pour que ton pokemon this.t'obéisses.", 484, this.globalState.y + 252);
+        this.p5.text("Seuls les liens d'amitier et la persévérance", 484, this.globalState.y + 278);
+        this.p5.text("en feront un bon compagnon de combat. ", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("If you become strong enough you will be", 484, this.globalState.y + 226);
-        text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
-        text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
-        text("depend on his trainer's choices.", 484, this.globalState.y + 304);
+      if (this.globalState.EN == 255) {
+        this.p5.text("If you become strong enough you will be", 484, this.globalState.y + 226);
+        this.p5.text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
+        this.p5.text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
+        this.p5.text("depend on his trainer's choices.", 484, this.globalState.y + 304);
       }
     }
 
@@ -1245,189 +1254,189 @@ export default class Map1 extends Map {
 
     if (this.globalState.y >= 1660 && this.globalState.y <= 1680 && this.globalState.x >= 482 && this.globalState.x <= 550) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio4, this.images.img13);
+        this.updateScene(this.img5, this.images.kaio4, this.img13);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio4, this.images.img13);
+        this.updateScene(this.img6, this.images.kaio4, this.img13);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio4, this.images.img13);
+        this.updateScene(this.img7, this.images.kaio4, this.img13);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio4, this.images.img13);
+        this.updateScene(this.img8, this.images.kaio4, this.img13);
       }
-      if (keyIsDown(LEFT_ARROW)) {
-        this.updateScene(this.player.img2, this.images.kaio4, this.images.img13);
-      }
-
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.updateScene(this.player.img3, this.images.kaio4, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+        this.updateScene(this.img2, this.images.kaio4, this.img13);
       }
 
-      if (keyIsDown(UP_ARROW)) {
-        this.updateScene(this.player.img4, this.images.kaio4, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        this.updateScene(this.img3, this.images.kaio4, this.img13);
       }
 
-      if (keyIsDown(DOWN_ARROW)) {
-        this.updateScene(this.player.img1, this.images.kaio4, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+        this.updateScene(this.img4, this.images.kaio4, this.img13);
       }
-      p.noTint();
-      p.image(img18, 590, this.globalState.y + 30);
-      p.image(img19, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
-        text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
-        text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
-        text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      if (this.p5.keyIsDown(this.p5.DOWN_ARROW)) {
+        this.updateScene(this.img1, this.images.kaio4, this.img13);
       }
-      if (EN == 255) {
-        text("If you become strong enough you will be", 484, this.globalState.y + 226);
-        text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
-        text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
-        text("depend on his trainer's choices.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(img18, 590, this.globalState.y + 30);
+      this.p5.image(img19, 10, this.globalState.y + 130);
+
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
+        this.p5.text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
+        this.p5.text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
+        this.p5.text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      }
+      if (this.globalState.EN == 255) {
+        this.p5.text("If you become strong enough you will be", 484, this.globalState.y + 226);
+        this.p5.text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
+        this.p5.text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
+        this.p5.text("depend on his trainer's choices.", 484, this.globalState.y + 304);
       }
     }
 
     if (this.globalState.y >= 1690 && this.globalState.y <= 1720 && this.globalState.x >= 458 && this.globalState.x <= 510) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio2, this.images.img13);
+        this.updateScene(this.img5, this.images.kaio2, this.img13);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio2, this.images.img13);
+        this.updateScene(this.img6, this.images.kaio2, this.img13);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio2, this.images.img13);
+        this.updateScene(this.img7, this.images.kaio2, this.img13);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio2, this.images.img13);
+        this.updateScene(this.img8, this.images.kaio2, this.img13);
       }
-      if (keyIsDown(LEFT_ARROW)) {
-        this.updateScene(this.player.img2, this.images.kaio2, this.images.img13);
-      }
-
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.updateScene(this.player.img3, this.images.kaio2, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+        this.updateScene(this.img2, this.images.kaio2, this.img13);
       }
 
-      if (keyIsDown(UP_ARROW)) {
-        this.updateScene(this.player.img4, this.images.kaio2, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        this.updateScene(this.img3, this.images.kaio2, this.img13);
       }
 
-      if (keyIsDown(DOWN_ARROW)) {
-        this.updateScene(this.player.img1, this.images.kaio2, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+        this.updateScene(this.img4, this.images.kaio2, this.img13);
       }
-      p.noTint();
-      p.image(img18, 590, this.globalState.y + 30);
-      p.image(img19, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
-        text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
-        text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
-        text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      if (this.p5.keyIsDown(this.p5.DOWN_ARROW)) {
+        this.updateScene(this.img1, this.images.kaio2, this.img13);
       }
-      if (EN == 255) {
-        text("If you become strong enough you will be", 484, this.globalState.y + 226);
-        text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
-        text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
-        text("depend on his trainer's choices.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(img18, 590, this.globalState.y + 30);
+      this.p5.image(img19, 10, this.globalState.y + 130);
+
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
+        this.p5.text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
+        this.p5.text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
+        this.p5.text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      }
+      if (this.globalState.EN == 255) {
+        this.p5.text("If you become strong enough you will be", 484, this.globalState.y + 226);
+        this.p5.text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
+        this.p5.text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
+        this.p5.text("depend on his trainer's choices.", 484, this.globalState.y + 304);
       }
     }
 
     if (this.globalState.y >= 1680 && this.globalState.y <= 1720 && this.globalState.x >= 510 && this.globalState.x <= 560) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio3, this.images.img13);
+        this.updateScene(this.img5, this.images.kaio3, this.img13);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio3, this.images.img13);
+        this.updateScene(this.img6, this.images.kaio3, this.img13);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio3, this.images.img13);
+        this.updateScene(this.img7, this.images.kaio3, this.img13);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio3, this.images.img13);
+        this.updateScene(this.img8, this.images.kaio3, this.img13);
       }
-      if (keyIsDown(LEFT_ARROW)) {
-        this.updateScene(this.player.img2, this.images.kaio3, this.images.img13);
-      }
-
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.updateScene(this.player.img3, this.images.kaio3, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+        this.updateScene(this.img2, this.images.kaio3, this.img13);
       }
 
-      if (keyIsDown(UP_ARROW)) {
-        this.updateScene(this.player.img4, this.images.kaio3, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        this.updateScene(this.img3, this.images.kaio3, this.img13);
       }
 
-      if (keyIsDown(DOWN_ARROW)) {
-        this.updateScene(this.player.img1, this.images.kaio3, this.images.img13);
+      if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+        this.updateScene(this.img4, this.images.kaio3, this.img13);
       }
-      p.noTint();
-      p.image(img18, 590, this.globalState.y + 30);
-      p.image(img19, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
-        text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
-        text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
-        text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      if (this.p5.keyIsDown(this.p5.DOWN_ARROW)) {
+        this.updateScene(this.img1, this.images.kaio3, this.img13);
       }
-      if (EN == 255) {
-        text("If you become strong enough you will be", 484, this.globalState.y + 226);
-        text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
-        text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
-        text("depend on his trainer's choices.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(img18, 590, this.globalState.y + 30);
+      this.p5.image(img19, 10, this.globalState.y + 130);
+
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
+        this.p5.text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
+        this.p5.text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
+        this.p5.text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      }
+      if (this.globalState.EN == 255) {
+        this.p5.text("If you become strong enough you will be", 484, this.globalState.y + 226);
+        this.p5.text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
+        this.p5.text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
+        this.p5.text("depend on his trainer's choices.", 484, this.globalState.y + 304);
       }
     }
 
     if (this.globalState.y >= 1720 && this.globalState.y <= 1760 && this.globalState.x >= 482 && this.globalState.x <= 550) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img5, this.kaio1, this.img13, this.kaio1a);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img6, this.kaio1, this.img13, this.kaio1a);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img7, this.kaio1, this.img13, this.kaio1a);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio1, this.images.img13, this.images.kaio1a);
+        this.updateScene(this.img8, this.kaio1, this.img13, this.kaio1a);
       }
-      if (keyIsDown(LEFT_ARROW)) {
-        this.updateScene(this.player.img2, this.images.kaio1, this.images.img13, this.images.kaio1a);
-      }
-
-      if (keyIsDown(RIGHT_ARROW)) {
-        this.updateScene(this.player.img3, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.LEFT_ARROW)) {
+        this.updateScene(this.img2, this.kaio1, this.img13, this.kaio1a);
       }
 
-      if (keyIsDown(UP_ARROW)) {
-        this.updateScene(this.player.img4, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.RIGHT_ARROW)) {
+        this.updateScene(this.img3, this.kaio1, this.img13, this.kaio1a);
       }
 
-      if (keyIsDown(DOWN_ARROW)) {
-        this.updateScene(this.player.img1, this.images.kaio1, this.images.img13, this.images.kaio1a);
+      if (this.p5.keyIsDown(this.p5.UP_ARROW)) {
+        this.updateScene(this.img4, this.kaio1, this.img13, this.kaio1a);
       }
-      p.noTint();
-      p.image(img18, 590, this.globalState.y + 30);
-      p.image(img19, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
-        text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
-        text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
-        text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      if (this.p5.keyIsDown(this.p5.DOWN_ARROW)) {
+        this.updateScene(this.img1, this.kaio1, this.img13, this.kaio1a);
       }
-      if (EN == 255) {
-        text("If you become strong enough you will be", 484, this.globalState.y + 226);
-        text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
-        text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
-        text("depend on his trainer's choices.", 484, this.globalState.y + 304);
+      this.p5.noTint();
+      this.p5.image(img18, 590, this.globalState.y + 30);
+      this.p5.image(img19, 10, this.globalState.y + 130);
+
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Si tu deviens fort tu pourras monter en grade", 484, this.globalState.y + 226);
+        this.p5.text("et devenir Samuraï, Ninja ou Moine.", 484, this.globalState.y + 252);
+        this.p5.text("Sache que la force d'un Pokemon dépend", 484, this.globalState.y + 278);
+        this.p5.text("aussi des choix de son dresseur. ", 484, this.globalState.y + 304);
+      }
+      if (this.globalState.EN == 255) {
+        this.p5.text("If you become strong enough you will be", 484, this.globalState.y + 226);
+        this.p5.text("promoted as this.globalState.a Samurai, this.globalState.a Ninja or this.globalState.a Monk.", 484, this.globalState.y + 252);
+        this.p5.text("Remember that the Pokemon's strengh", 484, this.globalState.y + 278);
+        this.p5.text("depend on his trainer's choices.", 484, this.globalState.y + 304);
       }
     }
     //---------combat--------//
@@ -1464,65 +1473,65 @@ export default class Map1 extends Map {
 
     if (this.globalState.y >= 0 && this.globalState.y <= 354 && this.globalState.x >= 432 && this.globalState.x <= 500) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio1, this.images.img14, this.images.kaio1a);
+        this.updateScene(this.img5, this.kaio1, this.images.img14, this.kaio1a);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio1, this.images.img14, this.images.kaio1a);
+        this.updateScene(this.img6, this.kaio1, this.images.img14, this.kaio1a);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio1, this.images.img14, this.images.kaio1a);
+        this.updateScene(this.img7, this.kaio1, this.images.img14, this.kaio1a);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio1, this.images.img14, this.images.kaio1a);
+        this.updateScene(this.img8, this.kaio1, this.images.img14, this.kaio1a);
       }
-      p.noTint();
-      p.image(img17, 600, this.globalState.y + 30);
-      p.image(img16, 10, this.globalState.y + 130);
+      this.p5.noTint();
+      this.p5.image(img17, 600, this.globalState.y + 30);
+      this.p5.image(img16, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Oh! Un visiteur! Quelle région magnifique,", 484, this.globalState.y + 226);
-        text("n'est ce pas? Mais.... ", 484, this.globalState.y + 252);
-        text("Une grande menace pèse sur nous...", 484, this.globalState.y + 278);
-        text("Pourras tu nous venir en aide?!", 484, this.globalState.y + 304);
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Oh! Un visiteur! Quelle région magnifique,", 484, this.globalState.y + 226);
+        this.p5.text("n'est ce pas? Mais.... ", 484, this.globalState.y + 252);
+        this.p5.text("Une grande menace pèse sur nous...", 484, this.globalState.y + 278);
+        this.p5.text("Pourras tu nous venir en aide?!", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("Oh! A stranger! What this.globalState.a wonderful country,", 484, this.globalState.y + 226);
-        text("isn'this.t it? But.... ", 484, this.globalState.y + 252);
-        text("A terrible threatens approach.", 484, this.globalState.y + 278);
-        text("Will you be strong enough to help us?!", 484, this.globalState.y + 304);
+      if (this.globalState.EN == 255) {
+        this.p5.text("Oh! A stranger! What this.globalState.a wonderful country,", 484, this.globalState.y + 226);
+        this.p5.text("isn'this.t it? But.... ", 484, this.globalState.y + 252);
+        this.p5.text("A terrible threatens approach.", 484, this.globalState.y + 278);
+        this.p5.text("Will you be strong enough to help us?!", 484, this.globalState.y + 304);
       }
     }
 
     if (this.globalState.y >= 366 && this.globalState.y <= 380 && this.globalState.x >= 448 && this.globalState.x <= 500) {
       if (this.globalState.a == 1) {
-        this.updateScene(this.player.img5, this.images.kaio1, this.images.img15, this.images.kaio1a);
+        this.updateScene(this.img5, this.kaio1, this.images.img15, this.kaio1a);
       }
       if (this.globalState.a == 2) {
-        this.updateScene(this.player.img6, this.images.kaio1, this.images.img15, this.images.kaio1a);
+        this.updateScene(this.img6, this.kaio1, this.images.img15, this.kaio1a);
       }
       if (this.globalState.a == 3) {
-        this.updateScene(this.player.img7, this.images.kaio1, this.images.img15, this.images.kaio1a);
+        this.updateScene(this.img7, this.kaio1, this.images.img15, this.kaio1a);
       }
       if (this.globalState.a == 4) {
-        this.updateScene(this.player.img8, this.images.kaio1, this.images.img15, this.images.kaio1a);
+        this.updateScene(this.img8, this.kaio1, this.images.img15, this.kaio1a);
       }
-      p.noTint();
-      p.image(img17, 600, this.globalState.y + 30);
-      p.image(img16, 10, this.globalState.y + 130);
+      this.p5.noTint();
+      this.p5.image(img17, 600, this.globalState.y + 30);
+      this.p5.image(img16, 10, this.globalState.y + 130);
 
-      p.fill(30, 250);
-      if (FR == 255) {
-        text("Oh! Un visiteur! Quelle région magnifique,", 484, this.globalState.y + 226);
-        text("n'est ce pas? Mais.... ", 484, this.globalState.y + 252);
-        text("Une grande menace pèse sur nous...", 484, this.globalState.y + 278);
-        text("Pourras tu nous venir en aide?!", 484, this.globalState.y + 304);
+      this.p5.fill(30, 250);
+      if (this.globalState.FR == 255) {
+        this.p5.text("Oh! Un visiteur! Quelle région magnifique,", 484, this.globalState.y + 226);
+        this.p5.text("n'est ce pas? Mais.... ", 484, this.globalState.y + 252);
+        this.p5.text("Une grande menace pèse sur nous...", 484, this.globalState.y + 278);
+        this.p5.text("Pourras tu nous venir en aide?!", 484, this.globalState.y + 304);
       }
-      if (EN == 255) {
-        text("Oh! A stranger! What this.globalState.a wonderful country,", 484, this.globalState.y + 226);
-        text("isn'this.t it? But.... ", 484, this.globalState.y + 252);
-        text("A terrible threatens approach.", 484, this.globalState.y + 278);
-        text("Will you be strong enough to help us?!", 484, this.globalState.y + 304);
+      if (this.globalState.EN == 255) {
+        this.p5.text("Oh! A stranger! What this.globalState.a wonderful country,", 484, this.globalState.y + 226);
+        this.p5.text("isn'this.t it? But.... ", 484, this.globalState.y + 252);
+        this.p5.text("A terrible threatens approach.", 484, this.globalState.y + 278);
+        this.p5.text("Will you be strong enough to help us?!", 484, this.globalState.y + 304);
       }
     }
 
@@ -1536,11 +1545,11 @@ export default class Map1 extends Map {
     if (this.u >= 120) {
       this.u -= 1.5;
     }
-    if (this.o >= width) {
+    if (this.o >= this.p5.width) {
       this.o = -450;
     }
 
-    if (this.g >= width) {
+    if (this.g >= this.p5.width) {
       this.g = -600;
     } //------SEA-----//
 
@@ -1555,7 +1564,7 @@ export default class Map1 extends Map {
 
     this.e += 4;
     this.f += 2;
-    if (this.e >= width) {
+    if (this.e >= this.p5.width) {
       this.e = -800;
       this.f = 400;
     }
@@ -1605,7 +1614,7 @@ export default class Map1 extends Map {
 
   displayImage() {
     // Obtenir l'heure actuelle
-    let currentTime = p.hour();
+    let currentTime = this.p5.hour();
   
     // Ne rien afficher s'il fait jour
     if (currentTime >= 9 && currentTime < 18) {
@@ -1614,64 +1623,115 @@ export default class Map1 extends Map {
   
     // Afficher l'image appropriée selon l'heure de la journée
     if (currentTime >= 18 && currentTime < 19.5) { // de 18h à 19h30
-      p.image(teinte,0,0);
+      this.p5.image(this.teinte,0,0);
     } else if (currentTime >= 19.5 || currentTime < 7) { // de 19h30 à 7h
-      p.image(teinte2,0,0);
+      this.p5.image(this.teinte2,0,0);
     } else if (currentTime >= 7 && currentTime < 9) { // de 7h à 9h
-      p.image(teinte3, 0, 0);
+      this.p5.image(this.teinte3, 0, 0);
     }
   }
-
-  varPicture = {
-    'kaio': [this.mapImages.kaio1, this.mapImages.kaio2, this.mapImages.kaio3, this.mapImages.kaio4, this.mapImages.kaio1a],
-    'kiyoka': [this.mapImages.img13, this.mapImages.img14, this.mapImages.img15, this.mapImages.img16, this.mapImages.img17 ],
-    'player': [this.player.img1, this.player.img2, this.player.img3, this.player.img4, this.player.img5, this.player.img6, this.player.img7, this.player.img8]
-  };
         
   updateScene(playerPic = null, kaioPic = null, kaioBisPic = null, kiyokaPic = null) {
-    p.clear();
-    p.noTint();
-    p.image(this.mapImages.sky, 0, this.u);
-    p.image(this.mapImages.sea, 0, this.t);
-    p.image(this.mapImages.cloud2, this.g, this.u);
-    p.image(this.mapImages.cloud1, this.o, this.u);
-    p.background(this.mapImages.bg);
-    p.image(this.globalImages.shadow, this.globalState.x + 2, this.globalState.y + 34);
-    p.image(this.mapImages.img12, 300, 1600);
+    this.p5.clear();
+    this.p5.noTint();
+    this.p5.image(this.sky, 0, this.u);
+    this.p5.image(this.sea, 0, this.t);
+    this.p5.image(this.cloud2, this.g, this.u);
+    this.p5.image(this.cloud1, this.o, this.u);
+    this.p5.background(this.bg);
+    this.p5.image(this.shadow, this.globalState.x + 2, this.globalState.y + 34);
+    this.p5.image(this.img12, 300, 1600);
     if( playerPic != null && kaioPic != null && kiyokaPic != null && kaioBisPic == null)
     {
-      p.image(kiyokaPic, 474, 330);
-      p.image(this.mapImages.ponita1, 484, 2576);
-      p.image(this.mapImages.fille1, 484, 2576);
-      p.image(this.mapImages.battle1, 116, 2316);
-      p.image(this.mapImages.combat2, 400, 1700);
-      p.image(kaioPic, 500, 1680);
-      p.image(playerPic, this.globalState.x, this.globalState.y);
+      this.p5.image(kiyokaPic, 474, 330);
+      this.p5.image(this.ponita1, 484, 2576);
+      this.p5.image(this.fille1, 484, 2576);
+      this.p5.image(this.battle1, 116, 2316);
+      this.p5.image(this.combat2, 400, 1700);
+      this.p5.image(kaioPic, 500, 1680);
+      this.p5.image(playerPic, this.globalState.x, this.globalState.y);
     } 
     else if (playerPic != null && kaioPic != null && kiyokaPic != null && kaioBisPic != null) 
     {
-      p.image(kiyokaPic, 474, 330);
-      p.image(this.mapImages.ponita1, 484, 2576);
-      p.image(this.mapImages.fille1, 484, 2576);
-      p.image(this.mapImages.battle1, 116, 2316);
-      p.image(this.mapImages.combat2, 400, 1700);
-      p.image(kaioPic, 500, 1680);
-      p.image(playerPic, this.globalState.x, this.globalState.y);
-      p.image(kaioBisPic, 500, 1680);
+      this.p5.image(kiyokaPic, 474, 330);
+      this.p5.image(this.ponita1, 484, 2576);
+      this.p5.image(this.fille1, 484, 2576);
+      this.p5.image(this.battle1, 116, 2316);
+      this.p5.image(this.combat2, 400, 1700);
+      this.p5.image(kaioPic, 500, 1680);
+      this.p5.image(playerPic, this.globalState.x, this.globalState.y);
+      this.p5.image(kaioBisPic, 500, 1680);
     }
-    p.image(this.mapImages.combat1, 400, 1700);
-    p.image(this.mapImages.battle, 116, 2316);
-    p.image(this.mapImages.ponita, 484, 2576);
-    p.image(this.mapImages.fille, 484, 2576);
-    p.image(this.mapImages.img11, 300, 1600);
-    p.image(this.globalImages.shadow, this.e + 4, this.f + 200);
-    p.image(this.mapImages.Img5, 0, 0);
-    p.image(this.mapImages.bird1, this.e, this.f);
+    this.p5.image(this.combat1, 400, 1700);
+    this.p5.image(this.battle, 116, 2316);
+    this.p5.image(this.ponita, 484, 2576);
+    this.p5.image(this.fille, 484, 2576);
+    this.p5.image(this.img11, 300, 1600);
+    this.p5.image(this.shadow, this.e + 4, this.f + 200);
+    this.p5.image(this.Img5, 0, 0);
+    this.p5.image(this.bird1, this.e, this.f);
 
     this.displayImage();
-    p.tint(this.globalVariables.FR);
-    p.image(this.globalImages.flagFR, 0, this.globalState.y - 342);
-    p.tint(this.globalVariables.EN);
-    p.image(this.globalImages.flagEN, 60, this.globalState.y - 342);
-  }       
+    this.p5.tint(this.globalState.FR);
+    this.p5.image(this.flagFR, 0, this.globalState.y - 342);
+    this.p5.tint(this.globalState.EN);
+    this.p5.image(this.flagEN, 60, this.globalState.y - 342);
+  }  
+  
+  suppCommentaires() {
+    // afficher les commentaires dans une div
+    let commentairesDiv = this.p5.select('#commentaires');
+    commentairesDiv.html('');
+    commentairesDiv.position(this.p5.windowWidth/2 - 20, this.p5.windowHeight/2 + 162);
+    commentairesDiv.style("z-index: 1000");
+    commentairesDiv.style('background-color', 'rgba(255, 255, 255, 0');
+    commentairesDiv.style("overflow-y", "hidden");
+    commentairesDiv.style("width", "0px");
+    commentairesDiv.style("height", "0px");
+    commentairesDiv.style("word-wrap", "break-word");
+    
+    
+    } 
+    
+    envoyerSaisies() {
+    let author = pseudoInput.value();
+    let commentaire = commentInput.value();
+    const BASE_URL = "http://127.0.0.1:8000";
+    // const BASE_URL = "http://127.0.0.1:8000";
+    if (author=="")
+    {
+        author = "Anonymous";
+    }
+    const data= {
+        author:author, 
+        content:commentaire,
+    }
+    console.log(data)
+    try {
+        const response = fetch(`${BASE_URL}/comment/create`, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+    
+        if (response.status == 201) {
+            const responseData = response.json();
+            console.log(responseData);
+        } else {
+            // throw new Error("Erreur lors de la création du commentaire?");
+            this.afficherCommentaires();
+        }
+    } catch (error) {
+        console.error(error);
+        this.afficherCommentaires()
+        // alert("Erreur lors de la création du commentaire.");
+    }
+    
+    pseudoInput.value('');
+    commentInput.value('');
+    }
+    
 }
